@@ -18,6 +18,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = MovieViewController()
         let mainViewModel = MVVMViewModel()
         mainViewModel.moviAPIService = MoviAPIService()
+        mainViewModel.imageApiService = ImageAPIService()
         rootVC.viewModel = mainViewModel
         let rootNC = UINavigationController(rootViewController: rootVC)
         window?.rootViewController = rootNC

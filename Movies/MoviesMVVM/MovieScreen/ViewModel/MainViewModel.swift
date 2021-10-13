@@ -5,12 +5,17 @@ import Foundation
 
 protocol MainViewModelProtocol: AnyObject {
     var movies: MoviesPage? { get set }
+    var imageData: Data? { get set }
     var updateViewData: ((MainViewModelProtocol?) -> ())? { get set }
     var moviAPIService: MoviAPIServiceProtocol? { get set }
-    func startFetch(urlString: String)
+    var imageApiService: ImageAPIServiceProtocol? { get set }
+    func loadMoviesList(urlString: String)
+    func loadImageData(posterPath: String)
 }
 
 final class MVVMViewModel: MainViewModelProtocol {
+    var imageData: Data?
+    var imageApiService: ImageAPIServiceProtocol?
     var moviAPIService: MoviAPIServiceProtocol?
 
     var movies: MoviesPage? {
@@ -21,7 +26,18 @@ final class MVVMViewModel: MainViewModelProtocol {
 
     var updateViewData: ((MainViewModelProtocol?) -> ())?
 
-    func startFetch(urlString: String) {
+    func loadImageData(posterPath: String) {
+        imageApiService?.featchPosterData(posterPath: posterPath, completionHandler: { [weak self] result in
+            switch result {
+            case let .success(data):
+                self?.imageData = data
+            default:
+                break
+            }
+        })
+    }
+
+    func loadMoviesList(urlString: String) {
         moviAPIService?.fetchMoviesList(urlString: urlString, completionHandler: { [weak self] result in
             switch result {
             case let .success(moviesData):

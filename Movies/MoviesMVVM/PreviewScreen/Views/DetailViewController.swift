@@ -79,6 +79,7 @@ final class DetailViewController: UIViewController {
         guard let moveiDesc = movieDescription else { return PosterTableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: posterID, for: indexPath)
             as? PosterTableViewCell else { return PosterTableViewCell() }
+        cell.imageAPIService = ImageAPIService()
         guard let posterPath = moveiDesc.posterPath else { return PosterTableViewCell() }
         cell.setImage(Constants.imageCatalog + posterPath)
         return cell

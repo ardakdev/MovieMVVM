@@ -17,6 +17,7 @@
 		8EBA49162716BF710067F32A /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA49152716BF710067F32A /* MainViewModel.swift */; };
 		8EBA491A271708A20067F32A /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA4919271708A20067F32A /* DetailViewModel.swift */; };
 		8EBA491E27170EE50067F32A /* MoviAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA491D27170EE50067F32A /* MoviAPIService.swift */; };
+		8EBA4920271717160067F32A /* ImageAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA491F271717160067F32A /* ImageAPIService.swift */; };
 		8EC6F14026B1A98F00078262 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC6F13F26B1A98F00078262 /* Constants.swift */; };
 		8EC6F14226B1BF9500078262 /* Helper+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC6F14126B1BF9500078262 /* Helper+.swift */; };
 		8ECBD3DD26AEC85400D2F749 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECBD3DC26AEC85400D2F749 /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 		8EBA49152716BF710067F32A /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		8EBA4919271708A20067F32A /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		8EBA491D27170EE50067F32A /* MoviAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviAPIService.swift; sourceTree = "<group>"; };
+		8EBA491F271717160067F32A /* ImageAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAPIService.swift; sourceTree = "<group>"; };
 		8EC6F13F26B1A98F00078262 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8EC6F14126B1BF9500078262 /* Helper+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helper+.swift"; sourceTree = "<group>"; };
 		8ECBD3D926AEC85400D2F749 /* MoviesMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				8EBA491D27170EE50067F32A /* MoviAPIService.swift */,
+				8EBA491F271717160067F32A /* ImageAPIService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				8ECBD3DF26AEC85400D2F749 /* SceneDelegate.swift in Sources */,
 				8EC6F14026B1A98F00078262 /* Constants.swift in Sources */,
 				8E39769D26B075BD00E777CE /* Movie.swift in Sources */,
+				8EBA4920271717160067F32A /* ImageAPIService.swift in Sources */,
 				8E95988A26B19D3400849CD1 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

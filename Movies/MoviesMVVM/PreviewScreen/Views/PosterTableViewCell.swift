@@ -5,6 +5,10 @@ import UIKit
 
 /// PosterTableViewCell вывод счейки с постером на DetailViewController
 final class PosterTableViewCell: UITableViewCell {
+    // MARK: - internal property
+
+    var imageAPIService: ImageAPIServiceProtocol?
+
     // MARK: - private property
 
     private let posterImageView: UIImageView = {
@@ -50,11 +54,15 @@ final class PosterTableViewCell: UITableViewCell {
     // MARK: - intertal method
 
     func setImage(_ imagePath: String) {
-        guard let url = URL(string: imagePath) else { return }
-        guard let imageData = try? Data(contentsOf: url) else { return }
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.posterImageView.image = UIImage(data: imageData)
-        }
+        imageAPIService?.featchPosterData(posterPath: imagePath, completionHandler: { [weak self] result in
+            switch result {
+            case let .success(data):
+                DispatchQueue.main.async {
+                    self?.posterImageView.image = UIImage(data: data)
+                }
+            default:
+                break
+            }
+        })
     }
 }

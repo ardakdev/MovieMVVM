@@ -7,6 +7,7 @@ import UIKit
 final class MovieTableViewCell: UITableViewCell {
     // MARK: - private properties
 
+    var imageAPIService: ImageAPIServiceProtocol?
     private let posterImageView: UIImageView = {
         let posterImageView = UIImageView()
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -80,19 +81,19 @@ final class MovieTableViewCell: UITableViewCell {
     // MARK: - Internal methods
 
     func configureCell(movie: Movie) {
+        let path = "\(Constants.imageCatalog)\(movie.posterPath ?? "")"
+        imageAPIService?.featchPosterData(posterPath: path, completionHandler: { [weak self] result in
+            switch result {
+            case let .success(data):
+                self?.setPosterImage(image: UIImage(data: data))
+            default:
+                break
+            }
+        })
         setTitle(title: movie.title)
         setDescription(description: movie.overview)
         setReleaseDate(releaseDate: movie.releaseDate)
         setVoteAverage(voteAverage: movie.voteAverage)
-        DispatchQueue.global().async {
-            if let posterPath = movie.posterPath {
-                guard let url = URL(string: "\(Constants.imageCatalog)\(posterPath)") else { return }
-                guard let imageData = try? Data(contentsOf: url) else { return }
-                DispatchQueue.main.async {
-                    self.setPosterImage(image: UIImage(data: imageData))
-                }
-            }
-        }
     }
 
     func setTitle(title: String?) {
@@ -116,7 +117,9 @@ final class MovieTableViewCell: UITableViewCell {
     }
 
     func setPosterImage(image: UIImage?) {
-        posterImageView.image = image
+        DispatchQueue.main.async { [weak self] in
+            self?.posterImageView.image = image
+        }
     }
 
     func getBackgroundViewColor() -> UIColor {
