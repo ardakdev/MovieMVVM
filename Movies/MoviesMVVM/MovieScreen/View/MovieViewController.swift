@@ -10,7 +10,7 @@ final class MovieViewController: UIViewController {
     private var movies: MoviesPage?
     private let movieView = MovieView()
 
-    var viewModel: MVVMViewModel? {
+    var viewModel: MainViewModelProtocol? {
         didSet {
             viewModel?.updateViewData = { [weak self] featchData in
                 self?.movies = featchData?.movies
@@ -77,6 +77,9 @@ extension MovieViewController: UITableViewDelegate {
         guard let movieID = movie.id else { return }
         guard let cell = tableView.cellForRow(at: indexPath) as? MovieTableViewCell else { return }
         let previewVC = DetailViewController()
+        let detialViewModel = DetailViewModel()
+        detialViewModel.moviAPIService = MoviAPIService()
+        previewVC.detailViewModel = detialViewModel
         previewVC.movieID = movieID
         previewVC.backgroundColor = cell.getBackgroundViewColor()
         navigationController?.pushViewController(previewVC, animated: true)

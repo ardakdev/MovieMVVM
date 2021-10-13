@@ -12,6 +12,17 @@ final class DetailViewController: UIViewController {
         UIColor.black
     }()
 
+    var detailViewModel: DetailViewModelProtocol? {
+        didSet {
+            detailViewModel?.updateDetails = { [weak self] featchData in
+                self?.movieDescription = featchData.movieDetails
+                DispatchQueue.main.async {
+                    self?.detailTableView.reloadData()
+                }
+            }
+        }
+    }
+
     // MARK: - private properties
 
     private let detailTableView = UITableView()
@@ -58,27 +69,10 @@ final class DetailViewController: UIViewController {
 
     private func setupViewcontroller() {
         view.backgroundColor = backgroundColor
-        loadJSONData()
+        detailViewModel?.loadMovieDetails(movieID: movieID)
         createDetailTableView()
         registerCellDetailTableView()
         setConstraintsDetailTableView()
-    }
-
-    private func loadJSONData() {
-        let movieURL =
-            "https://api.themoviedb.org/3/movie/\(movieID)?api_key=d2d80f74ec43fc7ba2e4415c6713d125&language=ru-RU"
-        guard let url = URL(string: movieURL) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-            guard let self = self else { return }
-            guard let data = data else { return }
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            guard let jsonMovie = try? decoder.decode(Movie.self, from: data) else { return }
-            self.movieDescription = jsonMovie
-            DispatchQueue.main.async {
-                self.detailTableView.reloadData()
-            }
-        }.resume()
     }
 
     private func getPosterCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> PosterTableViewCell {

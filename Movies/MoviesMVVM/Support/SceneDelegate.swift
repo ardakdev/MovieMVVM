@@ -16,7 +16,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.backgroundColor = .white
         let rootVC = MovieViewController()
-        rootVC.viewModel = MVVMViewModel()
+        let mainViewModel = MVVMViewModel()
+        mainViewModel.moviAPIService = MoviAPIService()
+        rootVC.viewModel = mainViewModel
         let rootNC = UINavigationController(rootViewController: rootVC)
         window?.rootViewController = rootNC
         window?.makeKeyAndVisible()
