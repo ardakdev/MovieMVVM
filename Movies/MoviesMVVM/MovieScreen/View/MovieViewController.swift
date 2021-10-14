@@ -10,7 +10,7 @@ final class MovieViewController: UIViewController {
     private var movies: MoviesPage?
     private let movieView = MovieView()
 
-    var viewModel: MVVMViewModel? {
+    var viewModel: MainViewModelProtocol? {
         didSet {
             viewModel?.updateViewData = { [weak self] featchData in
                 self?.movies = featchData?.movies
@@ -36,11 +36,11 @@ final class MovieViewController: UIViewController {
         movieView.topicSegmentControl.selectedSegmentIndex = 0
         movieView.frame = view.frame
         view.addSubview(movieView)
-        viewModel?.startFetch(urlString: Constants.topComing)
+        viewModel?.loadMoviesList(urlString: Constants.topComing)
     }
 
     @objc private func segmentChange() {
-        viewModel?.startFetch(urlString: movieCaterogies[movieView.topicSegmentControl.selectedSegmentIndex])
+        viewModel?.loadMoviesList(urlString: movieCaterogies[movieView.topicSegmentControl.selectedSegmentIndex])
     }
 }
 
@@ -56,6 +56,7 @@ extension MovieViewController: UITableViewDataSource {
             .dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell
         else { return UITableViewCell() }
         guard let movie = movies?.results[indexPath.row] else { return UITableViewCell() }
+        cell.imageAPIService = ImageAPIService()
         cell.configureCell(movie: movie)
         return cell
     }
@@ -76,10 +77,9 @@ extension MovieViewController: UITableViewDelegate {
         guard let movie = movies?.results[indexPath.row] else { return }
         guard let movieID = movie.id else { return }
         guard let cell = tableView.cellForRow(at: indexPath) as? MovieTableViewCell else { return }
-        let previewVC = DetailViewController()
-        previewVC.movieID = movieID
-        previewVC.backgroundColor = cell.getBackgroundViewColor()
-        navigationController?.pushViewController(previewVC, animated: true)
+        let backgroundColor = cell.getBackgroundViewColor()
+
+        viewModel?.tapOnMovie(movieID: movieID)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

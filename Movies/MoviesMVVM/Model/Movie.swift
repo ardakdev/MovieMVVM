@@ -17,6 +17,8 @@ struct Movie: Decodable {
     let posterPath: String?
     /// Рейтинг фильма
     let voteAverage: Double?
+    /// Постер в формате дата
+    var posterData: Data?
 }
 
 /// Страница с фильмами
