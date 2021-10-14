@@ -9,15 +9,17 @@ protocol MainViewModelProtocol: AnyObject {
     var updateViewData: ((MainViewModelProtocol?) -> ())? { get set }
     var moviAPIService: MoviAPIServiceProtocol? { get set }
     var imageApiService: ImageAPIServiceProtocol? { get set }
+    var router: RouterProtocol? { get set }
     func loadMoviesList(urlString: String)
     func loadImageData(posterPath: String)
+    func tapOnMovie(movieID: Int)
 }
 
-final class MVVMViewModel: MainViewModelProtocol {
+final class MainViewModel: MainViewModelProtocol {
     var imageData: Data?
     var imageApiService: ImageAPIServiceProtocol?
     var moviAPIService: MoviAPIServiceProtocol?
-
+    var router: RouterProtocol?
     var movies: MoviesPage? {
         didSet {
             updateViewData?(self)
@@ -25,6 +27,16 @@ final class MVVMViewModel: MainViewModelProtocol {
     }
 
     var updateViewData: ((MainViewModelProtocol?) -> ())?
+
+    init(moviAPIService: MoviAPIServiceProtocol, imageApiService: ImageAPIServiceProtocol, router: RouterProtocol) {
+        self.imageApiService = imageApiService
+        self.moviAPIService = moviAPIService
+        self.router = router
+    }
+
+    func tapOnMovie(movieID: Int) {
+        router?.showDetails(movieID: movieID)
+    }
 
     func loadImageData(posterPath: String) {
         imageApiService?.featchPosterData(posterPath: posterPath, completionHandler: { [weak self] result in

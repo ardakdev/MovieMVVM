@@ -77,13 +77,9 @@ extension MovieViewController: UITableViewDelegate {
         guard let movie = movies?.results[indexPath.row] else { return }
         guard let movieID = movie.id else { return }
         guard let cell = tableView.cellForRow(at: indexPath) as? MovieTableViewCell else { return }
-        let previewVC = DetailViewController()
-        let detialViewModel = DetailViewModel()
-        detialViewModel.moviAPIService = MoviAPIService()
-        previewVC.detailViewModel = detialViewModel
-        previewVC.movieID = movieID
-        previewVC.backgroundColor = cell.getBackgroundViewColor()
-        navigationController?.pushViewController(previewVC, animated: true)
+        let backgroundColor = cell.getBackgroundViewColor()
+
+        viewModel?.tapOnMovie(movieID: movieID)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

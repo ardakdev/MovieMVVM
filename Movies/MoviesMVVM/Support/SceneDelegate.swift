@@ -15,13 +15,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window?.windowScene = windowScene
         window?.backgroundColor = .white
-        let rootVC = MovieViewController()
-        let mainViewModel = MVVMViewModel()
-        mainViewModel.moviAPIService = MoviAPIService()
-        mainViewModel.imageApiService = ImageAPIService()
-        rootVC.viewModel = mainViewModel
-        let rootNC = UINavigationController(rootViewController: rootVC)
-        window?.rootViewController = rootNC
+        let navigationController = UINavigationController()
+        let assembly = Assembly()
+        let router = Coordinator(navigationController: navigationController, assembly: assembly)
+        router.initialViewController()
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 }

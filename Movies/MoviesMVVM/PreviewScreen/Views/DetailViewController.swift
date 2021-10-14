@@ -9,7 +9,7 @@ final class DetailViewController: UIViewController {
 
     var movieID = 0
     var backgroundColor: UIColor = {
-        UIColor.black
+        UIColor.gray
     }()
 
     var detailViewModel: DetailViewModelProtocol? {
@@ -29,7 +29,7 @@ final class DetailViewController: UIViewController {
     private let posterID = "PosterTableViewCell"
     private let titleID = "TitleTableViewCell"
     private let overviewID = "OverviewTableViewCell"
-    private var movieDescription: Movie?
+    var movieDescription: Movie?
 
     // MARK: - Initializers
 
@@ -69,36 +69,32 @@ final class DetailViewController: UIViewController {
 
     private func setupViewcontroller() {
         view.backgroundColor = backgroundColor
-        detailViewModel?.loadMovieDetails(movieID: movieID)
         createDetailTableView()
         registerCellDetailTableView()
         setConstraintsDetailTableView()
     }
 
     private func getPosterCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> PosterTableViewCell {
-        guard let moveiDesc = movieDescription else { return PosterTableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: posterID, for: indexPath)
             as? PosterTableViewCell else { return PosterTableViewCell() }
         cell.imageAPIService = ImageAPIService()
-        guard let posterPath = moveiDesc.posterPath else { return PosterTableViewCell() }
-        cell.setImage(Constants.imageCatalog + posterPath)
+        guard let imageData = movieDescription?.posterData else { return PosterTableViewCell() }
+        cell.setImageFromData(imageData: imageData)
         return cell
     }
 
     private func getTitleCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TitleTableViewCell {
-        guard let moveiDesc = movieDescription else { return TitleTableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: titleID, for: indexPath)
             as? TitleTableViewCell else { return TitleTableViewCell() }
-        guard let title = moveiDesc.title else { return TitleTableViewCell() }
+        guard let title = movieDescription?.title else { return TitleTableViewCell() }
         cell.setTitle(title)
         return cell
     }
 
     private func getOverviewCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> OverviewTableViewCell {
-        guard let moveiDesc = movieDescription else { return OverviewTableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: overviewID, for: indexPath)
             as? OverviewTableViewCell else { return OverviewTableViewCell() }
-        guard let overview = moveiDesc.overview else { return OverviewTableViewCell() }
+        guard let overview = movieDescription?.overview else { return OverviewTableViewCell() }
         cell.setOverview(overview)
         return cell
     }

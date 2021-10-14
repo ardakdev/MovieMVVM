@@ -65,4 +65,10 @@ final class PosterTableViewCell: UITableViewCell {
             }
         })
     }
+
+    func setImageFromData(imageData: Data) {
+        DispatchQueue.main.async { [weak self] in
+            self?.posterImageView.image = UIImage(data: imageData)
+        }
+    }
 }

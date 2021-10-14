@@ -12,6 +12,9 @@ protocol DetailViewModelProtocol {
 
 final class DetailViewModel: DetailViewModelProtocol {
     var moviAPIService: MoviAPIServiceProtocol?
+    var imageApiService: ImageAPIServiceProtocol?
+    var router: CoordinatorProtocol?
+
     var updateDetails: ((DetailViewModelProtocol) -> ())?
     var movieDetails: Movie? {
         didSet {
@@ -19,11 +22,37 @@ final class DetailViewModel: DetailViewModelProtocol {
         }
     }
 
+    init(
+        moviAPIService: MoviAPIServiceProtocol,
+        imageApiService: ImageAPIServiceProtocol,
+        router: CoordinatorProtocol,
+        movieID: Int
+    ) {
+        self.imageApiService = imageApiService
+        self.moviAPIService = moviAPIService
+        self.router = router
+        loadMovieDetails(movieID: movieID)
+    }
+
     func loadMovieDetails(movieID: Int) {
         moviAPIService?.featchDetails(movieID: movieID, completionHandler: { [weak self] result in
             switch result {
-            case let .success(movieDetails):
-                self?.movieDetails = movieDetails
+            case var .success(movieDetailsWithData):
+
+                let path = Constants.imageCatalog + (movieDetailsWithData.posterPath ?? "")
+                self?.imageApiService?.featchPosterData(
+                    posterPath: path,
+                    completionHandler: { [weak self] result in
+                        switch result {
+                        case let .success(imageData):
+                            movieDetailsWithData.posterData = imageData
+                            self?.movieDetails = movieDetailsWithData
+                        case let .failure(error):
+                            print(error)
+                        }
+                    }
+                )
+
             case let .failure(error):
                 print(error.localizedDescription)
             }
