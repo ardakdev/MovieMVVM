@@ -21,6 +21,7 @@ final class Coordinator: CoordinatorProtocol {
         self.navigationController = navigationController
         self.assembly = assembly
     }
+
     func initialViewController() {
         guard let navigationController = navigationController,
               let mainViewController = assembly?.createMainScreen(router: self)

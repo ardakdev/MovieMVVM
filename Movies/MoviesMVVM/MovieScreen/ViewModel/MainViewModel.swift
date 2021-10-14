@@ -4,12 +4,13 @@
 import Foundation
 
 protocol MainViewModelProtocol: AnyObject {
-    var movies: MoviesPage? { get set }
     var imageData: Data? { get set }
-    var updateViewData: ((MainViewModelProtocol?) -> ())? { get set }
-    var moviAPIService: MoviAPIServiceProtocol? { get set }
     var imageApiService: ImageAPIServiceProtocol? { get set }
-    var router: RouterProtocol? { get set }
+    var moviAPIService: MoviAPIServiceProtocol? { get set }
+    var router: CoordinatorProtocol? { get set }
+    var movies: MoviesPage? { get set }
+    var updateViewData: ((MainViewModelProtocol?) -> ())? { get set }
+
     func loadMoviesList(urlString: String)
     func loadImageData(posterPath: String)
     func tapOnMovie(movieID: Int)
@@ -19,7 +20,7 @@ final class MainViewModel: MainViewModelProtocol {
     var imageData: Data?
     var imageApiService: ImageAPIServiceProtocol?
     var moviAPIService: MoviAPIServiceProtocol?
-    var router: RouterProtocol?
+    var router: CoordinatorProtocol?
     var movies: MoviesPage? {
         didSet {
             updateViewData?(self)
@@ -28,7 +29,11 @@ final class MainViewModel: MainViewModelProtocol {
 
     var updateViewData: ((MainViewModelProtocol?) -> ())?
 
-    init(moviAPIService: MoviAPIServiceProtocol, imageApiService: ImageAPIServiceProtocol, router: RouterProtocol) {
+    init(
+        moviAPIService: MoviAPIServiceProtocol,
+        imageApiService: ImageAPIServiceProtocol,
+        router: CoordinatorProtocol
+    ) {
         self.imageApiService = imageApiService
         self.moviAPIService = moviAPIService
         self.router = router
