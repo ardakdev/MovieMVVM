@@ -36,11 +36,17 @@ final class MovieViewController: UIViewController {
         movieView.topicSegmentControl.selectedSegmentIndex = 0
         movieView.frame = view.frame
         view.addSubview(movieView)
-        viewModel?.loadMoviesList(urlString: Constants.topComing)
+        viewModel?.loadMoviesList(
+            urlString: Constants.topComing,
+            category: movieView.topicSegmentControl.selectedSegmentIndex
+        )
     }
 
     @objc private func segmentChange() {
-        viewModel?.loadMoviesList(urlString: movieCaterogies[movieView.topicSegmentControl.selectedSegmentIndex])
+        viewModel?.loadMoviesList(
+            urlString: movieCaterogies[movieView.topicSegmentControl.selectedSegmentIndex],
+            category: movieView.topicSegmentControl.selectedSegmentIndex
+        )
     }
 }
 
@@ -74,11 +80,7 @@ extension MovieViewController: UITableViewDataSource {
 
 extension MovieViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let movie = movies?.results[indexPath.row] else { return }
-        guard let movieID = movie.id else { return }
-        guard let cell = tableView.cellForRow(at: indexPath) as? MovieTableViewCell else { return }
-        let backgroundColor = cell.getBackgroundViewColor()
-
+        guard let movieID = movies?.results[indexPath.row].id else { return }
         viewModel?.tapOnMovie(movieID: movieID)
     }
 

@@ -11,7 +11,7 @@ protocol MainViewModelProtocol: AnyObject {
     var movies: MoviesPage? { get set }
     var updateViewData: ((MainViewModelProtocol?) -> ())? { get set }
 
-    func loadMoviesList(urlString: String)
+    func loadMoviesList(urlString: String, category: Int)
     func loadImageData(posterPath: String)
     func tapOnMovie(movieID: Int)
 }
@@ -54,14 +54,18 @@ final class MainViewModel: MainViewModelProtocol {
         })
     }
 
-    func loadMoviesList(urlString: String) {
-        moviAPIService?.fetchMoviesList(urlString: urlString, completionHandler: { [weak self] result in
-            switch result {
-            case let .success(moviesData):
-                self?.movies = moviesData
-            case let .failure(error):
-                print(error.localizedDescription)
+    func loadMoviesList(urlString: String, category: Int) {
+        moviAPIService?.fetchMoviesList(
+            urlString: urlString,
+            category: category,
+            completionHandler: { [weak self] result in
+                switch result {
+                case let .success(moviesData):
+                    self?.movies = moviesData
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
             }
-        })
+        )
     }
 }

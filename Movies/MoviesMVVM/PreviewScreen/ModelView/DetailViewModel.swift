@@ -39,9 +39,8 @@ final class DetailViewModel: DetailViewModelProtocol {
             switch result {
             case var .success(movieDetailsWithData):
 
-                let path = Constants.imageCatalog + (movieDetailsWithData.posterPath ?? "")
                 self?.imageApiService?.featchPosterData(
-                    posterPath: path,
+                    posterPath: movieDetailsWithData.posterPath,
                     completionHandler: { [weak self] result in
                         switch result {
                         case let .success(imageData):

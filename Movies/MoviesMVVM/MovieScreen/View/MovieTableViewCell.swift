@@ -81,8 +81,7 @@ final class MovieTableViewCell: UITableViewCell {
     // MARK: - Internal methods
 
     func configureCell(movie: Movie) {
-        let path = "\(Constants.imageCatalog)\(movie.posterPath ?? "")"
-        imageAPIService?.featchPosterData(posterPath: path, completionHandler: { [weak self] result in
+        imageAPIService?.featchPosterData(posterPath: movie.posterPath, completionHandler: { [weak self] result in
             switch result {
             case let .success(data):
                 self?.setPosterImage(image: UIImage(data: data))
