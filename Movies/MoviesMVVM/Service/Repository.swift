@@ -4,9 +4,14 @@
 import Foundation
 import RealmSwift
 
-protocol RealmAPIServiceProtocol {}
+protocol RepositoryProtocol {
+    func saveMoviesToRealm(movieList: [Movie], category: Int)
+    func loadMoviesFromRealm(category: Int) -> MoviesPage?
+    func saveMovieDetailsToRealm(movieDetails: Movie)
+    func loadMovieDetailsFromRealm(movieID: Int) -> Movie?
+}
 
-final class RealmAPIService: RealmAPIServiceProtocol {
+final class Repository: RepositoryProtocol {
     func saveMoviesToRealm(movieList: [Movie], category: Int) {
         let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
         guard let realm = try? Realm(configuration: config) else { return }

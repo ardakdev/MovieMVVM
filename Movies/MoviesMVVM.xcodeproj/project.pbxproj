@@ -21,9 +21,8 @@
 		8EBA49232717EAF70067F32A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA49222717EAF70067F32A /* Coordinator.swift */; };
 		8EBA49252717EB880067F32A /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA49242717EB880067F32A /* Assembly.swift */; };
 		8EBA492D27181A680067F32A /* MoviesMVVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA492C27181A680067F32A /* MoviesMVVMTests.swift */; };
-		8EBA495E271C15A20067F32A /* RealmAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA495D271C15A10067F32A /* RealmAPIService.swift */; };
+		8EBA495E271C15A20067F32A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA495D271C15A10067F32A /* Repository.swift */; };
 		8EBA4961271C16B70067F32A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8EBA4960271C16B70067F32A /* RealmSwift */; };
-		8EBA4963271C51050067F32A /* FileManagerAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBA4962271C51050067F32A /* FileManagerAPIService.swift */; };
 		8EC6F14026B1A98F00078262 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC6F13F26B1A98F00078262 /* Constants.swift */; };
 		8EC6F14226B1BF9500078262 /* Helper+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC6F14126B1BF9500078262 /* Helper+.swift */; };
 		8ECBD3DD26AEC85400D2F749 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECBD3DC26AEC85400D2F749 /* AppDelegate.swift */; };
@@ -60,8 +59,7 @@
 		8EBA49242717EB880067F32A /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		8EBA492A27181A680067F32A /* MoviesMVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesMVVMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EBA492C27181A680067F32A /* MoviesMVVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesMVVMTests.swift; sourceTree = "<group>"; };
-		8EBA495D271C15A10067F32A /* RealmAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmAPIService.swift; sourceTree = "<group>"; };
-		8EBA4962271C51050067F32A /* FileManagerAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerAPIService.swift; sourceTree = "<group>"; };
+		8EBA495D271C15A10067F32A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		8EC6F13F26B1A98F00078262 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8EC6F14126B1BF9500078262 /* Helper+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helper+.swift"; sourceTree = "<group>"; };
 		8ECBD3D926AEC85400D2F749 /* MoviesMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,8 +188,7 @@
 			children = (
 				8EBA491D27170EE50067F32A /* MoviAPIService.swift */,
 				8EBA491F271717160067F32A /* ImageAPIService.swift */,
-				8EBA495D271C15A10067F32A /* RealmAPIService.swift */,
-				8EBA4962271C51050067F32A /* FileManagerAPIService.swift */,
+				8EBA495D271C15A10067F32A /* Repository.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -408,8 +405,7 @@
 				8ECBD3E126AEC85400D2F749 /* MovieViewController.swift in Sources */,
 				8EBA49162716BF710067F32A /* MainViewModel.swift in Sources */,
 				8ECBD3DD26AEC85400D2F749 /* AppDelegate.swift in Sources */,
-				8EBA495E271C15A20067F32A /* RealmAPIService.swift in Sources */,
-				8EBA4963271C51050067F32A /* FileManagerAPIService.swift in Sources */,
+				8EBA495E271C15A20067F32A /* Repository.swift in Sources */,
 				8E39769B26B0514800E777CE /* MovieTableViewCell.swift in Sources */,
 				8EC6F14226B1BF9500078262 /* Helper+.swift in Sources */,
 				8EBA491A271708A20067F32A /* DetailViewModel.swift in Sources */,

@@ -18,7 +18,7 @@ final class MoviAPIService: MoviAPIServiceProtocol {
         category: Int,
         completionHandler: @escaping (Result<MoviesPage, Error>) -> Void
     ) {
-        let realm = RealmAPIService()
+        let realm = Repository()
         if let movieDetails = realm.loadMoviesFromRealm(category: category) {
             completionHandler(.success(movieDetails))
         } else {
@@ -39,7 +39,7 @@ final class MoviAPIService: MoviAPIServiceProtocol {
     }
 
     func featchDetails(movieID: Int, completionHandler: @escaping (Result<Movie, Error>) -> Void) {
-        let realm = RealmAPIService()
+        let realm = Repository()
         if let movieDetails = realm.loadMovieDetailsFromRealm(movieID: movieID) {
             completionHandler(.success(movieDetails))
             print("загружено из базы")
