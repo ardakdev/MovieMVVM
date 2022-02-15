@@ -35,7 +35,7 @@ final class OverviewTableViewCell: UITableViewCell {
 
     private func setConstraintsOverviewLabel() {
         NSLayoutConstraint.activate([
-            overviewLabel.topAnchor.constraint(equalTo: topAnchor, constant: -15),
+            overviewLabel.topAnchor.constraint(equalTo: topAnchor),
             overviewLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             overviewLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             overviewLabel.bottomAnchor.constraint(equalTo: bottomAnchor)

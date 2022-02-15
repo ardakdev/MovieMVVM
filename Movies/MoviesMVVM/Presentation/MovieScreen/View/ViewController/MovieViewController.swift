@@ -8,44 +8,50 @@ final class MovieViewController: UIViewController {
 
     private let movieCaterogies = [Constants.popular, Constants.topRates, Constants.topComing]
     private var movies: MoviesPage?
-    private let movieView = MovieView()
 
-    var viewModel: MainViewModelProtocol? {
-        didSet {
-            viewModel?.updateViewData = { [weak self] featchData in
-                self?.movies = featchData?.movies
-                DispatchQueue.main.async {
-                    self?.movieView.movieTableView.reloadData()
-                }
-            }
-        }
-    }
+    // MARK: - internal properties
+
+    var viewModel: MainViewModelProtocol?
 
     // MARK: - Initializer
 
     override func viewDidLoad() {
+        view = MovieView()
         setupViewController()
     }
 
     // MARK: - private methods
 
+    private func view() -> MovieView {
+        guard let view = self.view as? MovieView else { return MovieView() }
+        return view
+    }
+
     private func setupViewController() {
-        movieView.topicSegmentControl.addTarget(self, action: #selector(segmentChange), for: .valueChanged)
-        movieView.movieTableView.delegate = self
-        movieView.movieTableView.dataSource = self
-        movieView.topicSegmentControl.selectedSegmentIndex = 0
-        movieView.frame = view.frame
-        view.addSubview(movieView)
+        view().movieTableView.delegate = self
+        view().movieTableView.dataSource = self
         viewModel?.loadMoviesList(
             urlString: Constants.topComing,
-            category: movieView.topicSegmentControl.selectedSegmentIndex
+            category: view().topicSegmentControl.selectedSegmentIndex
         )
+        view().topicSegmentControl.selectedSegmentIndex = 0
+        view().topicSegmentControl.addTarget(self, action: #selector(segmentChange), for: .valueChanged)
+        binding()
+    }
+
+    private func binding() {
+        viewModel?.movies.bind { [weak self] movies in
+            self?.movies = movies
+            DispatchQueue.main.async {
+                self?.view().movieTableView.reloadData()
+            }
+        }
     }
 
     @objc private func segmentChange() {
         viewModel?.loadMoviesList(
-            urlString: movieCaterogies[movieView.topicSegmentControl.selectedSegmentIndex],
-            category: movieView.topicSegmentControl.selectedSegmentIndex
+            urlString: movieCaterogies[view().topicSegmentControl.selectedSegmentIndex],
+            category: view().topicSegmentControl.selectedSegmentIndex
         )
     }
 }

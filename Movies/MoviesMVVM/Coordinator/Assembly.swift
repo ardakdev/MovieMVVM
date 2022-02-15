@@ -12,7 +12,7 @@ final class Assembly: AssemblyProtocol {
     func createMainScreen(router: CoordinatorProtocol) -> UIViewController {
         let view = MovieViewController()
         let mainViewModel = MainViewModel(
-            moviAPIService: MoviAPIService(),
+            moviAPIService: MovieAPIService(Repository()),
             imageApiService: ImageAPIService(),
             router: router
         )
@@ -23,13 +23,13 @@ final class Assembly: AssemblyProtocol {
     func createDetailsScreen(router: CoordinatorProtocol, movieID: Int) -> UIViewController {
         let view = DetailViewController()
         let detailsViewModel = DetailViewModel(
-            moviAPIService: MoviAPIService(),
+            moviAPIService: MovieAPIService(Repository()),
             imageApiService: ImageAPIService(),
             router: router,
             movieID: movieID
         )
 
-        view.detailViewModel = detailsViewModel
+        view.viewModel = detailsViewModel
         return view
     }
 }

@@ -7,19 +7,19 @@ import RealmSwift
 /// Данные о фильме
 struct Movie: Decodable {
     /// ID фильма
-    let id: Int?
+    var id: Int? = 0
     /// Название фильма
-    let title: String?
+    var title: String? = ""
     /// Описание фильма
-    let overview: String?
+    var overview: String? = ""
     /// Дата выхода
-    let releaseDate: String?
+    var releaseDate: String? = ""
     /// URL постера фильма
-    let posterPath: String?
+    var posterPath: String? = ""
     /// Рейтинг фильма
-    let voteAverage: Double?
+    var voteAverage: Double? = 0.0
     /// Постер в формате дата
-    var posterData: Data?
+    var posterData: Data? = nil
 
     init(moviesRealmObject: MovieRealm) {
         id = moviesRealmObject.id
@@ -40,19 +40,23 @@ struct Movie: Decodable {
         voteAverage = nil
         posterData = nil
     }
+
+    init() {}
 }
 
 /// Страница с фильмами
 struct MoviesPage: Decodable {
     /// Номер страницы
-    let page: Int?
+    var page: Int? = 0
     /// Список фильмов с данными о нем
-    let results: [Movie]
+    var results: [Movie] = []
 
     init(movies: [Movie]) {
         page = 0
         results = movies
     }
+
+    init() {}
 }
 
 /// Данные о фильме для Realm

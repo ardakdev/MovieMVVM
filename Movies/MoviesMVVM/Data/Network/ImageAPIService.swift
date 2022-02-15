@@ -5,11 +5,11 @@ import Foundation
 import SwiftUI
 
 protocol ImageAPIServiceProtocol {
-    func featchPosterData(posterPath: String?, completionHandler: @escaping (Result<Data, Error>) -> ())
+    func fetchPosterData(posterPath: String?, completionHandler: @escaping (Result<Data, Error>) -> ())
 }
 
 final class ImageAPIService: ImageAPIServiceProtocol {
-    func featchPosterData(posterPath: String?, completionHandler: @escaping (Result<Data, Error>) -> ()) {
+    func fetchPosterData(posterPath: String?, completionHandler: @escaping (Result<Data, Error>) -> ()) {
         if let loadedData = loadPictureFromDirectory(fileName: posterPath ?? "") {
             completionHandler(.success(loadedData))
         } else {

@@ -1,36 +1,42 @@
-// MoviAPIService.swift
+// MovieAPIService.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
-protocol MoviAPIServiceProtocol {
+protocol MovieAPIServiceProtocol {
+    var storage: RepositoryProtocol! { get set }
     func fetchMoviesList(
         urlString: String,
         category: Int,
         completionHandler: @escaping (Result<MoviesPage, Error>) -> Void
     )
-    func featchDetails(movieID: Int, completionHandler: @escaping (Result<Movie, Error>) -> Void)
+    func fetchDetails(movieID: Int, completionHandler: @escaping (Result<Movie, Error>) -> Void)
 }
 
-final class MoviAPIService: MoviAPIServiceProtocol {
+final class MovieAPIService: MovieAPIServiceProtocol {
+    var storage: RepositoryProtocol!
+
+    init(_ storage: RepositoryProtocol) {
+        self.storage = storage
+    }
+
     func fetchMoviesList(
         urlString: String,
         category: Int,
         completionHandler: @escaping (Result<MoviesPage, Error>) -> Void
     ) {
-        let realm = Repository()
-        if let movieDetails = realm.loadMoviesFromRealm(category: category) {
+        if let movieDetails = storage.loadMovies(category: category) {
             completionHandler(.success(movieDetails))
         } else {
             guard let url = URL(string: urlString) else { return }
-            URLSession.shared.dataTask(with: url) { data, _, _ in
+            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
                 guard let data = data else { return }
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let movies = try decoder.decode(MoviesPage.self, from: data)
                     completionHandler(.success(movies))
-                    realm.saveMoviesToRealm(movieList: movies.results, category: category)
+                    self?.storage.saveMovies(movieList: movies.results, category: category)
                 } catch {
                     completionHandler(.failure(error))
                 }
@@ -38,24 +44,21 @@ final class MoviAPIService: MoviAPIServiceProtocol {
         }
     }
 
-    func featchDetails(movieID: Int, completionHandler: @escaping (Result<Movie, Error>) -> Void) {
-        let realm = Repository()
-        if let movieDetails = realm.loadMovieDetailsFromRealm(movieID: movieID) {
+    func fetchDetails(movieID: Int, completionHandler: @escaping (Result<Movie, Error>) -> Void) {
+        if let movieDetails = storage.loadMovieDetails(movieID: movieID) {
             completionHandler(.success(movieDetails))
-            print("загружено из базы")
         } else {
             let movieURL =
-                "https://api.themoviedb.org/3/movie/\(movieID)?api_key=d2d80f74ec43fc7ba2e4415c6713d125&language=ru-RU"
+                "\(Constants.movieHeadURL)\(movieID)?api_key=\(Constants.apiKey)&language=ru-RU"
             guard let url = URL(string: movieURL) else { return }
-            URLSession.shared.dataTask(with: url) { data, _, _ in
+            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
                 guard let data = data else { return }
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let movieDetails = try decoder.decode(Movie.self, from: data)
                     completionHandler(.success(movieDetails))
-                    print("загружено из сети")
-                    realm.saveMovieDetailsToRealm(movieDetails: movieDetails)
+                    self?.storage.saveMovieDetails(movieDetails: movieDetails)
                 } catch {
                     completionHandler(.failure(error))
                 }

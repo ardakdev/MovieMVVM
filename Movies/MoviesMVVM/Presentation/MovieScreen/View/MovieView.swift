@@ -6,6 +6,8 @@ import UIKit
 final class MovieView: UIView {
     let topicSegmentControl = UISegmentedControl(items: ["Popular", "Top Rated", "Up Comming"])
     let movieTableView = UITableView()
+    let segmentHeight: CGFloat = 30
+    let estimatedRowHeight: CGFloat = 170
 
     // MARK: - Private methods
 
@@ -14,7 +16,6 @@ final class MovieView: UIView {
     }
 
     private func createTopicSegmentControl() {
-        topicSegmentControl.selectedSegmentIndex = 0
         topicSegmentControl.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topicSegmentControl)
     }
@@ -23,11 +24,11 @@ final class MovieView: UIView {
         movieTableView.translatesAutoresizingMaskIntoConstraints = false
         movieTableView.register(MovieTableViewCell.self, forCellReuseIdentifier: "MovieCell")
         movieTableView.rowHeight = UITableView.automaticDimension
-        movieTableView.estimatedRowHeight = 170.0
+        movieTableView.estimatedRowHeight = estimatedRowHeight
         addSubview(movieTableView)
     }
 
-    private func setAnchorTopcSegmentControl() {
+    private func setAnchorTopicSegmentControl() {
         let margins = layoutMarginsGuide
         NSLayoutConstraint.activate([
             topicSegmentControl.bottomAnchor
@@ -36,7 +37,7 @@ final class MovieView: UIView {
                 .constraint(equalTo: margins.leadingAnchor),
             topicSegmentControl.trailingAnchor
                 .constraint(equalTo: margins.trailingAnchor),
-            topicSegmentControl.heightAnchor.constraint(equalToConstant: 30)
+            topicSegmentControl.heightAnchor.constraint(equalToConstant: segmentHeight)
         ])
     }
 
@@ -56,7 +57,7 @@ final class MovieView: UIView {
     private func setupView() {
         createTopicSegmentControl()
         createMovieTableView()
-        setAnchorTopcSegmentControl()
+        setAnchorTopicSegmentControl()
         setAnchorMovieTableView()
     }
 }

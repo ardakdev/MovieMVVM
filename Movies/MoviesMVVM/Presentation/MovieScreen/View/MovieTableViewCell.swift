@@ -81,7 +81,7 @@ final class MovieTableViewCell: UITableViewCell {
     // MARK: - Internal methods
 
     func configureCell(movie: Movie) {
-        imageAPIService?.featchPosterData(posterPath: movie.posterPath, completionHandler: { [weak self] result in
+        imageAPIService?.fetchPosterData(posterPath: movie.posterPath, completionHandler: { [weak self] result in
             switch result {
             case let .success(data):
                 self?.setPosterImage(image: UIImage(data: data))

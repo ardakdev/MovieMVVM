@@ -1,18 +1,18 @@
-// RealmAPIService.swift
+// Repository.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
 import RealmSwift
 
 protocol RepositoryProtocol {
-    func saveMoviesToRealm(movieList: [Movie], category: Int)
-    func loadMoviesFromRealm(category: Int) -> MoviesPage?
-    func saveMovieDetailsToRealm(movieDetails: Movie)
-    func loadMovieDetailsFromRealm(movieID: Int) -> Movie?
+    func saveMovies(movieList: [Movie], category: Int)
+    func loadMovies(category: Int) -> MoviesPage?
+    func saveMovieDetails(movieDetails: Movie)
+    func loadMovieDetails(movieID: Int) -> Movie?
 }
 
 final class Repository: RepositoryProtocol {
-    func saveMoviesToRealm(movieList: [Movie], category: Int) {
+    func saveMovies(movieList: [Movie], category: Int) {
         let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
         guard let realm = try? Realm(configuration: config) else { return }
         try? realm.write {
@@ -30,7 +30,7 @@ final class Repository: RepositoryProtocol {
         }
     }
 
-    func loadMoviesFromRealm(category: Int) -> MoviesPage? {
+    func loadMovies(category: Int) -> MoviesPage? {
         var movie: [Movie] = []
 
         let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
@@ -45,7 +45,7 @@ final class Repository: RepositoryProtocol {
         return (movie.count > 0) ? MoviesPage(movies: movie) : nil
     }
 
-    func saveMovieDetailsToRealm(movieDetails: Movie) {
+    func saveMovieDetails(movieDetails: Movie) {
         let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
         guard let realm = try? Realm(configuration: config) else { return }
         try? realm.write {
@@ -58,7 +58,7 @@ final class Repository: RepositoryProtocol {
         }
     }
 
-    func loadMovieDetailsFromRealm(movieID: Int) -> Movie? {
+    func loadMovieDetails(movieID: Int) -> Movie? {
         var movie: Movie?
 
         let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)

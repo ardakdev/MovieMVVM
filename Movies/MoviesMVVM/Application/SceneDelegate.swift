@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// SceneDelegate запуск без Stroryboard
+/// SceneDelegate запуск без Storyboard
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
