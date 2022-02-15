@@ -6,12 +6,13 @@ import Foundation
 protocol MainViewModelProtocol: AnyObject {
     var imageData: Data? { get set }
     var imageApiService: ImageAPIServiceProtocol? { get set }
-    var moviAPIService: MoviAPIServiceProtocol? { get set }
+    var movieAPIService: MovieAPIServiceProtocol? { get set }
     var router: CoordinatorProtocol? { get set }
-    var movies: MoviesPage? { get set }
+    // var movies: MoviesPage? { get set }
+    var movies: Observable<MoviesPage?> { get set }
     var updateViewData: ((MainViewModelProtocol?) -> ())? { get set }
 
-    func loadMoviesList(urlString: String)
+    func loadMoviesList(urlString: String, category: Int)
     func loadImageData(posterPath: String)
     func tapOnMovie(movieID: Int)
 }
@@ -19,23 +20,24 @@ protocol MainViewModelProtocol: AnyObject {
 final class MainViewModel: MainViewModelProtocol {
     var imageData: Data?
     var imageApiService: ImageAPIServiceProtocol?
-    var moviAPIService: MoviAPIServiceProtocol?
+    var movieAPIService: MovieAPIServiceProtocol?
     var router: CoordinatorProtocol?
-    var movies: MoviesPage? {
-        didSet {
-            updateViewData?(self)
-        }
-    }
+    var movies: Observable<MoviesPage?> = Observable(nil)
+//    var movies: MoviesPage? {
+//        didSet {
+//            updateViewData?(self)
+//        }
+//    }
 
     var updateViewData: ((MainViewModelProtocol?) -> ())?
 
     init(
-        moviAPIService: MoviAPIServiceProtocol,
+        moviAPIService: MovieAPIServiceProtocol,
         imageApiService: ImageAPIServiceProtocol,
         router: CoordinatorProtocol
     ) {
         self.imageApiService = imageApiService
-        self.moviAPIService = moviAPIService
+        movieAPIService = moviAPIService
         self.router = router
     }
 
@@ -44,7 +46,7 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     func loadImageData(posterPath: String) {
-        imageApiService?.featchPosterData(posterPath: posterPath, completionHandler: { [weak self] result in
+        imageApiService?.fetchPosterData(posterPath: posterPath, completionHandler: { [weak self] result in
             switch result {
             case let .success(data):
                 self?.imageData = data
@@ -54,14 +56,18 @@ final class MainViewModel: MainViewModelProtocol {
         })
     }
 
-    func loadMoviesList(urlString: String) {
-        moviAPIService?.fetchMoviesList(urlString: urlString, completionHandler: { [weak self] result in
-            switch result {
-            case let .success(moviesData):
-                self?.movies = moviesData
-            case let .failure(error):
-                print(error.localizedDescription)
+    func loadMoviesList(urlString: String, category: Int) {
+        movieAPIService?.fetchMoviesList(
+            urlString: urlString,
+            category: category,
+            completionHandler: { [weak self] result in
+                switch result {
+                case let .success(moviesData):
+                    self?.movies.value = moviesData
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
             }
-        })
+        )
     }
 }

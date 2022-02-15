@@ -4,15 +4,6 @@
 @testable import MoviesMVVM
 import XCTest
 
-final class MockNavigationController: UINavigationController {
-    var presented: UIViewController?
-
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        presented = viewController
-        super.pushViewController(viewController, animated: animated)
-    }
-}
-
 final class MoviesMVVMTests: XCTestCase {
     var coordinator: CoordinatorProtocol!
     var mockNavigationController: MockNavigationController!

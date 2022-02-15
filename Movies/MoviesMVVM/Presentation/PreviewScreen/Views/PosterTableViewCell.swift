@@ -25,12 +25,12 @@ final class PosterTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         setupContentView()
         createPosterImageView()
-        setConstrainPostarImageView()
+        setConstrainPosterImageView()
     }
 
     // MARK: - private methods
 
-    private func setConstrainPostarImageView() {
+    private func setConstrainPosterImageView() {
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: topAnchor),
             posterImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
@@ -54,7 +54,7 @@ final class PosterTableViewCell: UITableViewCell {
     // MARK: - intertal method
 
     func setImage(_ imagePath: String) {
-        imageAPIService?.featchPosterData(posterPath: imagePath, completionHandler: { [weak self] result in
+        imageAPIService?.fetchPosterData(posterPath: imagePath, completionHandler: { [weak self] result in
             switch result {
             case let .success(data):
                 DispatchQueue.main.async {

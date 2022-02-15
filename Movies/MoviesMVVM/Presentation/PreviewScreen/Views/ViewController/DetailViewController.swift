@@ -12,20 +12,11 @@ final class DetailViewController: UIViewController {
         UIColor.gray
     }()
 
-    var detailViewModel: DetailViewModelProtocol? {
-        didSet {
-            detailViewModel?.updateDetails = { [weak self] featchData in
-                self?.movieDescription = featchData.movieDetails
-                DispatchQueue.main.async {
-                    self?.detailTableView.reloadData()
-                }
-            }
-        }
-    }
+    var viewModel: DetailViewModelProtocol?
 
     // MARK: - private properties
 
-    private let detailTableView = UITableView()
+    private let tableView = UITableView()
     private let posterID = "PosterTableViewCell"
     private let titleID = "TitleTableViewCell"
     private let overviewID = "OverviewTableViewCell"
@@ -35,43 +26,53 @@ final class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewcontroller()
+        setupViewController()
     }
 
     // MARK: - private methods
 
     private func createDetailTableView() {
-        detailTableView.separatorStyle = .none
-        detailTableView.translatesAutoresizingMaskIntoConstraints = false
-        detailTableView.backgroundColor = .clear
-        detailTableView.dataSource = self
-        detailTableView.delegate = self
-        detailTableView.estimatedRowHeight = 500.0
-        detailTableView.rowHeight = UITableView.automaticDimension
-        view.addSubview(detailTableView)
+        tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .clear
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.estimatedRowHeight = 500.0
+        tableView.rowHeight = UITableView.automaticDimension
+        view.addSubview(tableView)
     }
 
     private func registerCellDetailTableView() {
-        detailTableView.register(PosterTableViewCell.self, forCellReuseIdentifier: posterID)
-        detailTableView.register(TitleTableViewCell.self, forCellReuseIdentifier: titleID)
-        detailTableView.register(OverviewTableViewCell.self, forCellReuseIdentifier: overviewID)
+        tableView.register(PosterTableViewCell.self, forCellReuseIdentifier: posterID)
+        tableView.register(TitleTableViewCell.self, forCellReuseIdentifier: titleID)
+        tableView.register(OverviewTableViewCell.self, forCellReuseIdentifier: overviewID)
     }
 
     private func setConstraintsDetailTableView() {
         let margins = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            detailTableView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            detailTableView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 20),
-            detailTableView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
-            detailTableView.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
+            tableView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            tableView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 20),
+            tableView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
         ])
     }
 
-    private func setupViewcontroller() {
+    private func binding() {
+        viewModel?.movieDetails.bind { [weak self] movie in
+            self?.movieDescription = movie
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+
+    private func setupViewController() {
         view.backgroundColor = backgroundColor
         createDetailTableView()
         registerCellDetailTableView()
         setConstraintsDetailTableView()
+        binding()
     }
 
     private func getPosterCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> PosterTableViewCell {

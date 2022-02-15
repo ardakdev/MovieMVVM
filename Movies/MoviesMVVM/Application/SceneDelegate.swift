@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// SceneDelegate запуск без Stroryboard
+/// SceneDelegate запуск без Storyboard
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
@@ -12,6 +12,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
+        let fileManager = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask)
+        print(fileManager.description)
+        let fileManager2 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print(fileManager2.description)
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window?.windowScene = windowScene
         window?.backgroundColor = .white
